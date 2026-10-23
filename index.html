@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mobile Games · Play together with your phones</title>
+<meta name="description" content="Collaborative browser games for 2 to 300 phones. Tilt, hum and swing your phone together. No app, no login.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%2314110f'/%3E%3Crect%20x='20'%20y='10'%20width='24'%20height='44'%20rx='6'%20fill='none'%20stroke='%23ff6a3d'%20stroke-width='4'/%3E%3Ccircle%20cx='32'%20cy='32'%20r='6'%20fill='%23ffd23f'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+:root{
+  --bg:#f4eee3;--paper:#fffaf1;--ink:#1b1712;--muted:#6b6257;--line:#1b17121f;
+  --shadow:0 1px 0 #1b171214,0 14px 34px -18px #1b171259;
+  --orange:#e8532a;--violet:#6b4de6;--teal:#0f8f7e;--gold:#c98a00;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#13110f;--paper:#1d1a17;--ink:#f3ece0;--muted:#a99f92;--line:#f3ece01f;
+  --shadow:0 1px 0 #ffffff0d,0 18px 40px -20px #000c;
+  --orange:#ff7a4d;--violet:#a08bff;--teal:#3fd6bf;--gold:#ffc83d;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#13110f;--paper:#1d1a17;--ink:#f3ece0;--muted:#a99f92;--line:#f3ece01f;
+    --shadow:0 1px 0 #ffffff0d,0 18px 40px -20px #000c;
+    --orange:#ff7a4d;--violet:#a08bff;--teal:#3fd6bf;--gold:#ffc83d;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.55 "Bricolage Grotesque",ui-sans-serif,sans-serif;
+  background-image:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 0);background-size:22px 22px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left))}
+
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:20px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.02em;text-decoration:none}
+.brand i{font-size:1.4rem;color:var(--orange)}
+.tools{display:flex;gap:8px}
+.icon-btn{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:1.1rem;cursor:pointer;text-decoration:none;box-shadow:var(--shadow)}
+.icon-btn:hover{border-color:var(--ink)}
+
+.hero{padding:clamp(40px,9vw,96px) 0 clamp(28px,5vw,48px)}
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+h1{font:400 clamp(2.9rem,9vw,6.4rem)/.95 "Instrument Serif",serif;letter-spacing:-.02em;margin:.25em 0 .3em;max-width:14ch}
+h1 em{color:var(--orange)}
+.lede{font-size:clamp(1.05rem,2.2vw,1.3rem);max-width:56ch;color:var(--muted);margin:0}
+.facts{display:flex;flex-wrap:wrap;gap:10px 22px;list-style:none;padding:0;margin:26px 0 0;font-weight:600;font-size:.95rem}
+.facts i{color:var(--teal);margin-right:6px}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.chip{font:inherit;font-size:.92rem;font-weight:600;padding:8px 15px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.chip i{margin-right:6px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:20px;list-style:none;padding:0;margin:0 0 56px}
+.games li[hidden]{display:none}
+.card{--accent:var(--orange);position:relative;height:100%;display:flex;flex-direction:column;padding:24px 24px 20px;border-radius:22px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s;animation:rise .7s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i) * 90ms + 150ms)}
+.card::before{content:"";position:absolute;inset:0 0 auto;height:6px;background:var(--accent)}
+.card:hover,.card:focus-within{transform:translateY(-4px) rotate(-.4deg);box-shadow:0 1px 0 var(--line),0 24px 44px -20px color-mix(in srgb,var(--accent) 70%,transparent)}
+.card .glyph{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:1.6rem;color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent);margin-bottom:16px}
+.card:hover .glyph{animation:wiggle .6s ease}
+.card h2{font:400 2.1rem/1 "Instrument Serif",serif;margin:0 0 6px}
+.card h2 a{text-decoration:none}
+.card h2 a::after{content:"";position:absolute;inset:0;z-index:1}
+.card .tag{font-style:italic;font-family:"Instrument Serif",serif;font-size:1.2rem;color:var(--accent);margin:0 0 10px}
+.card p.desc{margin:0 0 18px;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:auto 0 16px}
+.meta li{font-size:.8rem;font-weight:600;padding:4px 10px;border-radius:999px;border:1px solid var(--line)}
+.meta i{margin-right:5px;color:var(--accent)}
+.go{display:flex;align-items:center;justify-content:space-between;font-weight:700;border-top:1px dashed var(--line);padding-top:14px}
+.go i{transition:transform .25s}
+.card:hover .go i{transform:translateX(5px)}
+
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:24px;counter-reset:step;padding:34px 0;border-top:1px solid var(--line);margin-bottom:24px}
+.how h2{grid-column:1/-1;font:400 2rem/1 "Instrument Serif",serif;margin:0}
+.how section{counter-increment:step}
+.how h3{font-size:1rem;margin:0 0 4px}
+.how h3::before{content:counter(step,decimal-leading-zero);display:block;font:400 2.2rem/1 "Instrument Serif",serif;color:var(--orange);margin-bottom:6px}
+.how p{margin:0;color:var(--muted);font-size:.95rem}
+
+footer{padding:24px 0 40px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
+
+@keyframes rise{from{opacity:0;transform:translateY(24px)}}
+@keyframes wiggle{25%{transform:rotate(-12deg)}75%{transform:rotate(10deg)}}
+.hero>*{animation:rise .7s cubic-bezier(.2,.8,.2,1) backwards}
+.hero>:nth-child(2){animation-delay:60ms}.hero>:nth-child(3){animation-delay:120ms}.hero>:nth-child(4){animation-delay:180ms}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="./"><i class="bi bi-phone-vibrate" aria-hidden="true"></i>Mobile Games</a>
+    <nav class="tools" aria-label="Site">
+      <a class="icon-btn" href="https://github.com/sanand0/mobile-games" title="Source code on GitHub" aria-label="Source code on GitHub"><i class="bi bi-github" aria-hidden="true"></i></a>
+      <button class="icon-btn" id="theme" type="button" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi bi-moon-stars" aria-hidden="true"></i></button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="title">
+      <p class="eyebrow">Games for a room full of phones</p>
+      <h1 id="title">Pick up your phone. <em>Play together.</em></h1>
+      <p class="lede">Browser games that turn every phone's motion sensors and microphone into one shared instrument. The presenter opens a room; everyone scans a QR code and joins.</p>
+      <ul class="facts">
+        <li><i class="bi bi-people-fill" aria-hidden="true"></i>2 to 300 players</li>
+        <li><i class="bi bi-qr-code" aria-hidden="true"></i>No app, no login</li>
+        <li><i class="bi bi-shield-check" aria-hidden="true"></i>Anonymous by default</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="games-title">
+      <h2 id="games-title" class="eyebrow">The games</h2>
+      <div class="filters" role="group" aria-label="Filter games by sensor">
+        <button class="chip" type="button" data-filter="all" aria-pressed="true"><i class="bi bi-grid" aria-hidden="true"></i>All</button>
+        <button class="chip" type="button" data-filter="motion" aria-pressed="false"><i class="bi bi-phone-flip" aria-hidden="true"></i>Motion</button>
+        <button class="chip" type="button" data-filter="voice" aria-pressed="false"><i class="bi bi-mic" aria-hidden="true"></i>Voice</button>
+        <button class="chip" type="button" data-filter="group" aria-pressed="false"><i class="bi bi-people" aria-hidden="true"></i>Multiplayer</button>
+      </div>
+      <ul class="games">
+        <li data-tags="motion group">
+          <article class="card" style="--i:0;--accent:var(--orange)">
+            <div class="glyph" aria-hidden="true"><i class="bi bi-pencil"></i></div>
+            <h2><a href="human-pixels/">Human Pixels</a></h2>
+            <p class="tag">One letter each.</p>
+            <p class="desc">Every phone gets one letter and traces it by tilting, like a pen in the air. The presenter's screen fills with the whole paragraph as the room writes it together.</p>
+            <ul class="meta" aria-label="Details">
+              <li><i class="bi bi-phone-flip" aria-hidden="true"></i>Tilt</li>
+              <li><i class="bi bi-people" aria-hidden="true"></i>3–300 phones</li>
+            </ul>
+            <div class="go" aria-hidden="true">Open game <i class="bi bi-arrow-right"></i></div>
+          </article>
+        </li>
+        <li data-tags="voice group">
+          <article class="card" style="--i:1;--accent:var(--violet)">
+            <div class="glyph" aria-hidden="true"><i class="bi bi-music-note-beamed"></i></div>
+            <h2><a href="voice-choir/">Voice Choir</a></h2>
+            <p class="tag">Hum together.</p>
+            <p class="desc">Each phone gets a note to hum and shows how close the singer is. The presenter's screen draws the voices as ribbons that settle into chords. Pitch is worked out on the phone; no audio is uploaded.</p>
+            <ul class="meta" aria-label="Details">
+              <li><i class="bi bi-mic" aria-hidden="true"></i>Microphone</li>
+              <li><i class="bi bi-people" aria-hidden="true"></i>2–300 phones</li>
+            </ul>
+            <div class="go" aria-hidden="true">Open game <i class="bi bi-arrow-right"></i></div>
+          </article>
+        </li>
+        <li data-tags="motion group">
+          <article class="card" style="--i:2;--accent:var(--teal)">
+            <div class="glyph" aria-hidden="true"><i class="bi bi-flower1"></i></div>
+            <h2><a href="tidel-garden/">Tidal Garden</a></h2>
+            <p class="tag">One room. One organism.</p>
+            <p class="desc">A shared, living artwork. Tilt to bend glowing currents, sway to grow light and shake to set off blooms. When the room moves in sync, the garden resonates.</p>
+            <ul class="meta" aria-label="Details">
+              <li><i class="bi bi-phone-flip" aria-hidden="true"></i>Tilt, sway, shake</li>
+              <li><i class="bi bi-people" aria-hidden="true"></i>Whole room</li>
+            </ul>
+            <div class="go" aria-hidden="true">Open game <i class="bi bi-arrow-right"></i></div>
+          </article>
+        </li>
+        <li data-tags="motion">
+          <article class="card" style="--i:3;--accent:var(--gold)">
+            <div class="glyph" aria-hidden="true"><i class="bi bi-stopwatch"></i></div>
+            <h2><a href="pendulum-gravity/">Gravity Lab</a></h2>
+            <p class="tag">How strong is gravity?</p>
+            <p class="desc">Make a pendulum, time its swings with the phone's motion sensor or a stopwatch, and work out Earth's gravity. A hands-on experiment for Classes 6–8.</p>
+            <ul class="meta" aria-label="Details">
+              <li><i class="bi bi-phone-flip" aria-hidden="true"></i>Motion or stopwatch</li>
+              <li><i class="bi bi-person" aria-hidden="true"></i>Solo or small group</li>
+            </ul>
+            <div class="go" aria-hidden="true">Open game <i class="bi bi-arrow-right"></i></div>
+          </article>
+        </li>
+      </ul>
+    </section>
+
+    <section class="how" aria-labelledby="how-title">
+      <h2 id="how-title">How a session runs</h2>
+      <section><h3>Open a room</h3><p>The presenter opens a game on a laptop or projector and creates a room. Presenter controls stay in that browser.</p></section>
+      <section><h3>Scan to join</h3><p>Everyone scans the QR code. Phones ask for motion or microphone access only after a tap.</p></section>
+      <section><h3>Play live</h3><p>Phones send small summaries a few times a second through a public relay. Nothing to install, no server to run.</p></section>
+    </section>
+  </main>
+
+  <footer>
+    <p>Made by <a href="https://s-anand.net/">S Anand</a>. Open source on <a href="https://github.com/sanand0/mobile-games">GitHub</a>. Use HTTPS on phones for sensor access.</p>
+  </footer>
+</div>
+<script>
+const root = document.documentElement;
+const themeBtn = document.getElementById("theme");
+const store = {
+  get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
+  set: (k, v) => { try { localStorage.setItem(k, v); } catch {} },
+};
+const isDark = () => root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+const paintTheme = () => (themeBtn.firstElementChild.className = `bi ${isDark() ? "bi-sun" : "bi-moon-stars"}`);
+if (store.get("theme")) root.dataset.theme = store.get("theme");
+paintTheme();
+themeBtn.addEventListener("click", () => {
+  root.dataset.theme = isDark() ? "light" : "dark";
+  store.set("theme", root.dataset.theme);
+  paintTheme();
+});
+
+// Filter chips, bookmarkable as #?sensor=voice
+const chips = [...document.querySelectorAll(".chip")];
+const games = [...document.querySelectorAll(".games > li")];
+function applyFilter(filter) {
+  if (!chips.some((c) => c.dataset.filter === filter)) filter = "all";
+  chips.forEach((c) => c.setAttribute("aria-pressed", c.dataset.filter === filter));
+  games.forEach((g) => (g.hidden = filter !== "all" && !g.dataset.tags.split(" ").includes(filter)));
+  return filter;
+}
+const readHash = () => new URLSearchParams(location.hash.replace(/^#\??/, "")).get("sensor") || "all";
+chips.forEach((chip) =>
+  chip.addEventListener("click", () => {
+    const filter = applyFilter(chip.dataset.filter);
+    history.replaceState(null, "", filter === "all" ? location.pathname + location.search : `#?sensor=${filter}`);
+  }),
+);
+addEventListener("hashchange", () => applyFilter(readHash()));
+applyFilter(readHash());
+</script>
+</body>
+</html>
