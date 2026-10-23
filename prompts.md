@@ -13,6 +13,8 @@ Create a README.md that briefly describes these games and links to them.
 
 Enable GitHub Pages that efficiently (i.e. quickly, lightweight containers, aligned to GitHub recommendations) publishes the HTML files at https://sanand0.github.io/mobile-games/. Commit, push, and test. Ensure that the "About" section links to the GitHub Page.
 
+<!-- claude --resume 1f225468-3a00-40ce-954b-a9c4bc86f110 -->
+
 ## Voice Choir, 23 Oct 2026
 
 <!--
