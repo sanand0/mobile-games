@@ -1,7 +1,7 @@
 // @ts-check
 // Minimal MQTT 3.1.1 over WebSocket (QoS 0), shared by the games. Ported from tidel-garden/index.html.
 // Works in browsers and Node >= 22 (global WebSocket). Public brokers: anyone can read/write any topic,
-// so never send secrets and authenticate presenter messages separately (see signing in human-pixels/human-pixels.js).
+// so never send secrets and authenticate presenter messages separately (see shared/signing.js).
 
 export const BROKERS = ["wss://broker.emqx.io:8084/mqtt", "wss://test.mosquitto.org:8081"];
 const enc = new TextEncoder(), dec = new TextDecoder();

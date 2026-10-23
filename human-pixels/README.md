@@ -9,7 +9,7 @@ A collaborative handwriting game for 3 to 300 phones. Each phone is given one le
 | File | Purpose |
 | --- | --- |
 | `human-pixels/index.html` | Landing, participant and presenter views (plain HTML/CSS/JS module) |
-| `human-pixels/human-pixels.js` | Core with no DOM: paragraph, stroke font, layout, roster/assignment, wire protocol, presenter signing, legibility score, SVG/JSONL export, virtual participants |
+| `human-pixels/human-pixels.js` | Core with no DOM: paragraph, stroke font, layout, roster/assignment, wire protocol, presenter signing (from `shared/signing.js`), legibility score, SVG/JSONL export, virtual participants |
 | `shared/mqtt.js` | Reusable MQTT 3.1.1-over-WebSocket client (ported from `tidel-garden/index.html`) plus an in-memory `LocalBus` for simulations |
 | `shared/tilt-pen.js` | Reusable Air Ink tilt pen: iOS permission, relative tilt, smoothing, speed-based ink width, hold button, finger fallback, diagnostics |
 | `tests/human-pixels.test.mjs` | Node tests, including 3/30/300-participant simulations |
